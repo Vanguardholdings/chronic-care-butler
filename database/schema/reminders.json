@@ -1,0 +1,31 @@
+{
+  "collection": "reminders",
+  "description": "用药提醒记录",
+  "fields": {
+    "_id": {"type": "ObjectId"},
+    "patient_id": {"type": "ObjectId", "required": true},
+    "patient_name": {"type": "string"},
+    "medication_id": {"type": "string"},
+    "medication_name": {"type": "string"},
+    "dosage": {"type": "string"},
+    "date": {"type": "string", "description": "YYYY-MM-DD"},
+    "time_bucket": {"type": "string", "enum": ["早上", "中午", "晚上", "睡前"]},
+    "scheduled_time": {"type": "date"},
+    "sent_at": {"type": "date"},
+    "status": {
+      "type": "string",
+      "enum": ["pending", "sent", "confirmed", "snoozed", "missed", "escalated"]
+    },
+    "snooze_count": {"type": "number", "default": 0},
+    "snooze_until": {"type": "date"},
+    "confirmed_at": {"type": "date"},
+    "escalated": {"type": "boolean", "default": false},
+    "escalated_at": {"type": "date"},
+    "created_at": {"type": "date"}
+  },
+  "indexes": [
+    {"fields": ["patient_id", "date", "time_bucket"]},
+    {"fields": ["status", "sent_at"]},
+    {"fields": ["date"]}
+  ]
+}

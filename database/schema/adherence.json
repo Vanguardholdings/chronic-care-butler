@@ -1,0 +1,23 @@
+{
+  "collection": "adherence",
+  "description": "服药依从性记录",
+  "fields": {
+    "_id": {"type": "ObjectId"},
+    "patient_id": {"type": "ObjectId", "required": true},
+    "patient_name": {"type": "string"},
+    "medication_id": {"type": "string"},
+    "medication_name": {"type": "string"},
+    "date": {"type": "string", "description": "YYYY-MM-DD"},
+    "time_bucket": {"type": "string"},
+    "taken": {"type": "boolean"},
+    "confirmed_at": {"type": "date"},
+    "confirmed_by": {"type": "string", "enum": ["patient", "caregiver", "nurse"]},
+    "reason": {"type": "string", "description": "未服药原因"},
+    "reminder_id": {"type": "ObjectId"},
+    "created_at": {"type": "date"}
+  },
+  "indexes": [
+    {"fields": ["patient_id", "date"]},
+    {"fields": ["date"]}
+  ]
+}

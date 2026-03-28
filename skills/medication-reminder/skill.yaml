@@ -1,0 +1,121 @@
+name: medication-reminder
+description: 自动发送用药提醒给患者，并在未确认时升级通知家属或护士
+version: 1.0.0
+author: chronic-care-butler
+
+config:
+  schema:
+    wechat_app_id:
+      type: string
+      description: WeChat Service Account App ID
+      required: true
+    wechat_secret:
+      type: string
+      description: WeChat Service Account Secret
+      required: true
+      secret: true
+    mongodb_uri:
+      type: string
+      description: MongoDB connection URI
+      required: true
+      secret: true
+    default_clinic_phone:
+      type: string
+      description: Default clinic contact phone for escalations
+      required: true
+
+triggers:
+  - name: scheduled_morning
+    type: cron
+    schedule: "0 8 * * *"
+    timezone: Asia/Shanghai
+    description: 早上8点用药提醒
+
+  - name: scheduled_noon
+    type: cron
+    schedule: "0 12 * * *"
+    timezone: Asia/Shanghai
+    description: 中午12点用药提醒
+
+  - name: scheduled_evening
+    type: cron
+    schedule: "0 18 * * *"
+    timezone: Asia/Shanghai
+    description: 晚上6点用药提醒
+
+  - name: scheduled_bedtime
+    type: cron
+    schedule: "0 21 * * *"
+    timezone: Asia/Shanghai
+    description: 晚上9点用药提醒
+
+  - name: patient_response
+    type: webhook
+    path: /medication-response
+    description: 患者回复用药确认
+
+  - name: escalation_check
+    type: cron
+    schedule: "*/30 * * * *"
+    timezone: Asia/Shanghai
+    description: 每30分钟检查未确认提醒并升级
+
+actions:
+  - name: send_reminder
+    description: 发送用药提醒消息
+    handler: handlers/send_reminder.py
+
+  - name: handle_response
+    description: 处理患者响应
+    handler: handlers/handle_response.py
+
+  - name: escalate_overdue
+    description: 升级超时未确认的提醒
+    handler: handlers/escalate.py
+
+  - name: check_emergency_keywords
+    description: 检查紧急关键词
+    handler: handlers/emergency_check.py
+
+templates:
+  reminder_message: |
+    {{patient_name}}，该吃药了
+
+    💊 {{medication_name}} {{dosage}}
+    🎯 {{purpose}}
+    ⏰ {{time_bucket}} {{with_food_note}}
+
+    [已服用] [稍后提醒]
+
+  confirmation_message: |
+    ✅ 已记录：{{medication_name}} {{dosage}}
+    继续保持！
+
+  snooze_message: |
+    ⏰ 好的，30分钟后再次提醒。
+
+  escalation_caregiver: |
+    提醒：{{patient_name}} 尚未确认服药
+
+    💊 {{medication_name}}
+    ⏰ 应于 {{scheduled_time}} 服用
+    ⏱️ 已超时 {{missed_duration}}
+
+    [查看详情] [联系患者]
+
+  emergency_response: |
+    🚨 我们已收到您的消息，护士会立即与您联系。
+    如情况紧急，请直接拨打120或前往急诊。
+
+safety:
+  - rule: never_provide_medical_advice
+    description: 从不提供医疗建议
+    keywords: ["能停吗", "还要吃吗", "副作用", "换药", "剂量"]
+    response: "这个问题需要咨询您的医生或护士。请拨打社区卫生服务中心电话：{{clinic_phone}}"
+    action: flag_for_nurse_review
+
+  - rule: emergency_detection
+    description: 紧急关键词检测
+    keywords: ["疼痛", "胸痛", "头晕", "昏倒", "出血", "救命", "emergency", "疼"]
+    action: escalate_to_human
+    priority: urgent

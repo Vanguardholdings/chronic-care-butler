@@ -1,0 +1,18 @@
+name: report-generator
+description: 自动生成政府KPI报告
+triggers:
+  - name: weekly_report
+    type: cron
+    schedule: "0 9 * * 1"
+    timezone: Asia/Shanghai
+  - name: monthly_report
+    type: cron
+    schedule: "0 9 1 * *"
+    timezone: Asia/Shanghai
+actions:
+  - name: generate_weekly
+    handler: handlers/generate_weekly.py
+  - name: generate_monthly
+    handler: handlers/generate_monthly.py
+  - name: export_pdf
+    handler: handlers/export_pdf.py

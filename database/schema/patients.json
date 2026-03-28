@@ -1,0 +1,77 @@
+{
+  "collection": "patients",
+  "description": "患者基本信息",
+  "fields": {
+    "_id": {
+      "type": "ObjectId",
+      "description": "MongoDB document ID"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "description": "患者姓名"
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "description": "联系电话"
+    },
+    "id_card": {
+      "type": "string",
+      "required": true,
+      "description": "身份证号（加密存储）"
+    },
+    "wechat_openid": {
+      "type": "string",
+      "description": "微信OpenID"
+    },
+    "caregiver_openid": {
+      "type": "string",
+      "description": "家属微信OpenID"
+    },
+    "caregiver_name": {
+      "type": "string",
+      "description": "家属姓名"
+    },
+    "medications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "dosage": {"type": "string"},
+          "purpose": {"type": "string"},
+          "time_bucket": {"type": "string", "enum": ["早上", "中午", "晚上", "睡前"]},
+          "with_food": {"type": "boolean"}
+        }
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "慢性病诊断"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "suspended"],
+      "default": "active"
+    },
+    "clinic_id": {
+      "type": "string",
+      "description": "所属卫生服务中心"
+    },
+    "created_at": {
+      "type": "date"
+    },
+    "updated_at": {
+      "type": "date"
+    }
+  },
+  "indexes": [
+    {"fields": ["wechat_openid"], "unique": true, "sparse": true},
+    {"fields": ["phone"]},
+    {"fields": ["clinic_id"]},
+    {"fields": ["status"]}
+  ]
+}

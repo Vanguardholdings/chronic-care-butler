@@ -1,0 +1,72 @@
+name: appointment-manager
+description: 预约挂号管理和提醒
+version: 1.0.0
+author: chronic-care-butler
+
+config:
+  schema:
+    mongodb_uri:
+      type: string
+      required: true
+      secret: true
+    wechat_app_id:
+      type: string
+      required: true
+    wechat_secret:
+      type: string
+      required: true
+      secret: true
+
+triggers:
+  - name: daily_appointment_check
+    type: cron
+    schedule: "0 9 * * *"
+    timezone: Asia/Shanghai
+
+  - name: two_hour_reminder
+    type: cron
+    schedule: "*/30 * * * *"
+    timezone: Asia/Shanghai
+
+actions:
+  - name: send_24h_reminder
+    handler: handlers/send_reminder.py
+
+  - name: send_2h_reminder
+    handler: handlers/send_2h_reminder.py
+
+  - name: handle_confirmation
+    handler: handlers/handle_confirmation.py
+
+  - name: handle_cancellation
+    handler: handlers/handle_cancellation.py
+
+templates:
+  reminder_24h: |
+    📅 明天就诊提醒
+
+    患者: {{patient_name}}
+    时间: {{appointment_time}}
+    科室: {{department}}
+    医生: {{doctor_name}}
+
+    请携带身份证和医保卡，提前15分钟到达。
+
+    [确认就诊] [取消预约]
+
+  reminder_2h: |
+    ⏰ 即将就诊
+
+    患者: {{patient_name}}
+    时间: {{appointment_time}} (2小时后)
+    地点: {{clinic_address}}
+
+    请准时到达。
+
+  cancellation: |
+    ✅ 预约已取消
+
+    患者: {{patient_name}}
+    时间: {{appointment_time}}
+
+    如需重新预约，请联系社区卫生服务中心。

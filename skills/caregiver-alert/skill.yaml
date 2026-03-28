@@ -1,0 +1,38 @@
+name: caregiver-alert
+description: 家属通知和周报
+triggers:
+  - name: weekly_summary
+    type: cron
+    schedule: "0 18 * * 0"
+    timezone: Asia/Shanghai
+actions:
+  - name: send_weekly_summary
+    handler: handlers/weekly_summary.py
+  - name: invite_caregiver
+    handler: handlers/invite.py
+templates:
+  weekly_summary: |
+    📊 本周用药报告
+
+    患者: {{patient_name}}
+    周期: {{week_start}} - {{week_end}}
+
+    本周服药依从率: {{adherence_rate}}%
+    应服药次数: {{total_doses}}
+    实际服药次数: {{taken_doses}}
+
+    {{status_message}}
+
+    [查看详情]
+
+  invite: |
+    👨‍👩‍👧 家属绑定邀请
+
+    {{patient_name}} 邀请您关注他们的健康状况。
+
+    绑定后您将收到：
+    - 每周用药报告
+    - 未服药提醒
+    - 健康异常通知
+
+    [接受邀请]

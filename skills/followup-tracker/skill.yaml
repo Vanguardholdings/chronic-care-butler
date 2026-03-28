@@ -1,0 +1,26 @@
+name: followup-tracker
+description: 随访跟踪 - 就诊后自动跟进
+triggers:
+  - name: daily_followup_check
+    type: cron
+    schedule: "0 10 * * *"
+    timezone: Asia/Shanghai
+actions:
+  - name: send_followup
+    handler: handlers/send_followup.py
+  - name: handle_response
+    handler: handlers/handle_response.py
+templates:
+  followup_3day: |
+    🏥 就诊后随访
+
+    患者: {{patient_name}}
+    就诊时间: {{visit_date}}
+
+    您好，您3天前在社区卫生服务中心就诊，现在想了解您的恢复情况：
+
+    1. 症状是否缓解？
+    2. 是否有新的不适？
+    3. 服药是否有不良反应？
+
+    [症状好转] [仍有不适] [需要复诊]
