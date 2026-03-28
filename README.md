@@ -309,14 +309,150 @@ MIT License - See [LICENSE](./LICENSE) file
 - Powered by [Qwen](https://qwen.ai) Chinese LLM
 - Inspired by China's community health center nurses
 
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Python 3.9+
+- MongoDB 5.0+
+- WeChat Developer Account
+- Alibaba Cloud account (for China deployment)
+
+### Local Development
+
+```bash
+# Clone repository
+git clone https://github.com/Vanguardholdings/chronic-care-butler.git
+cd chronic-care-butler
+
+# Install dependencies
+npm install
+pip install -r requirements.txt
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run OpenClaw locally
+openclaw serve --skills ./skills
+
+# Run dashboard
+cd dashboard && npm install && npm run serve
+
+# Run webhook server
+python wechat/webhook-server.py
+```
+
+### Docker Deployment
+
+```bash
+# Start all services
+docker-compose up -d
+
+# Access dashboard at http://localhost:8080
+# Access webhook at http://localhost:5000
+```
+
+## 📸 Screenshots
+
+### Nurse Dashboard
+![Dashboard](docs/images/dashboard-preview.png)
+*Real-time patient adherence monitoring*
+
+### WeChat Patient Interface
+![WeChat](docs/images/wechat-reminder.png)
+*Medication reminders via WeChat*
+
+### Data Analytics
+![Analytics](docs/images/analytics.png)
+*Government KPI reporting*
+
+## 📊 API Documentation
+
+### Webhook Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/wechat/webhook` | GET/POST | WeChat message handling |
+| `/medication-response` | POST | Patient medication confirmation |
+| `/api/patients` | GET | List all patients |
+| `/api/adherence` | GET | Get adherence statistics |
+
+### Authentication
+
+All API endpoints require Bearer token authentication:
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+## 🗺️ Roadmap
+
+### Q2 2026
+- [ ] Pilot with 3 community health centers
+- [ ] WeChat mini-program integration
+- [ ] Prescription OCR with Qwen LLM
+
+### Q3 2026
+- [ ] Scale to 10 paying customers
+- [ ] Nurse mobile app (iOS/Android)
+- [ ] Integration with hospital EMR systems
+
+### Q4 2026
+- [ ] Expand to 50 health centers
+- [ ] AI-powered symptom triage
+- [ ] Multi-language support (English, Spanish)
+
+## 🤝 Contributing
+
+We welcome contributions! Areas we need help:
+
+- **Frontend**: Vue.js dashboard improvements
+- **AI/ML**: LLM prompt optimization, new skill ideas
+- **Healthcare**: Clinical validation, nurse feedback
+- **Localization**: Other Chinese dialects, international markets
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+## 📈 Investor Information
+
+### Funding Status
+- **Stage**: Pre-seed / Self-funded
+- **Seeking**: $100K-$500K seed funding
+- **Use of Funds**: Product development, pilot expansion, team building
+
+### Traction
+- ✅ MVP complete with 5 AI skills
+- ✅ GitHub repo with 49 files, 4,893 lines
+- ✅ Live demo: https://vanguardholdings.github.io/chronic-care-butler/
+- 🔄 AWS Activate application submitted
+- 🔄 LinkedIn profile established
+
+### Contact Investors
+- **Pitch deck**: Available upon request
+- **Demo**: Live at https://vanguardholdings.github.io/chronic-care-butler/
+- **Repository**: https://github.com/Vanguardholdings/chronic-care-butler
+
+## 🙏 Acknowledgments
+
+- Built with [OpenClaw](https://openclaw.ai) agent platform
+- Powered by [Qwen](https://qwen.ai) Chinese LLM
+- Inspired by China's community health center nurses
+- Thanks to AWS Activate, Microsoft Founders Hub, and startup community
+
 ## 📞 Contact
 
-- **Email**: [your-email@example.com]
-- **WeChat**: [your-wechat-id]
-- **Location**: Shenzhen, China
+- **Email**: vanguardironholdings@gmail.com
+- **GitHub**: https://github.com/Vanguardholdings
+- **LinkedIn**: https://www.linkedin.com/in/vanguard-iron-holdings-6820813bb/
+- **Demo**: https://vanguardholdings.github.io/chronic-care-butler/
+- **Location**: Shenzhen, China / Miami, USA
 
 ---
 
 **慢病管家** — AI for healthier communities
 
 Built with ❤️ for China's 400 million chronic disease patients
+
+[![GitHub stars](https://img.shields.io/github/stars/Vanguardholdings/chronic-care-butler?style=social)](https://github.com/Vanguardholdings/chronic-care-butler/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Vanguardholdings/chronic-care-butler?style=social)](https://github.com/Vanguardholdings/chronic-care-butler/network/members)
