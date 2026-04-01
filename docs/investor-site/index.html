@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chronic Care Butler — AI-Powered Chronic Disease Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060f;--bg2:#0c0c1d;--glass:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.06);--glow:rgba(99,102,241,0.3);--t1:#f0f0ff;--t2:rgba(200,200,230,0.7);--t3:rgba(160,160,200,0.5);--a1:#6366f1;--a2:#8b5cf6;--a3:#a78bfa;--grad:linear-gradient(135deg,#6366f1,#8b5cf6,#a78bfa);--grad2:linear-gradient(135deg,#6366f1,#8b5cf6);--ease:cubic-bezier(0.16,1,0.3,1)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.reveal{opacity:0;transform:translateY(50px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.v{opacity:1;transform:translateY(0)}.reveal-s{opacity:0;transform:scale(.9);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal-s.v{opacity:1;transform:scale(1)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 2rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}nav.scrolled{padding:.8rem 2rem;background:rgba(6,6,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}.nav-logo{font-size:1.1rem;font-weight:700;color:var(--t1);text-decoration:none;display:flex;align-items:center;gap:.6rem}.logo-mark{width:32px;height:32px;border-radius:10px;background:var(--grad2);display:flex;align-items:center;justify-content:center;font-size:.9rem}.nav-links{display:flex;gap:2rem;align-items:center}.nav-links a{color:var(--t2);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .3s}.nav-links a:hover{color:var(--t1)}.nav-cta{background:var(--grad2)!important;color:white!important;padding:.55rem 1.4rem!important;border-radius:50px;font-weight:600!important}.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,102,241,0.4)}@media(max-width:768px){.nav-links{display:none}}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}#particles{position:absolute;inset:0;z-index:0}.hero-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.4;z-index:0}.o1{width:600px;height:600px;background:radial-gradient(circle,#6366f1,transparent 70%);top:-15%;left:-10%;animation:fo 20s ease-in-out infinite alternate}.o2{width:500px;height:500px;background:radial-gradient(circle,#8b5cf6,transparent 70%);bottom:-10%;right:-10%;animation:fo 20s ease-in-out infinite alternate;animation-delay:-7s}.o3{width:300px;height:300px;background:radial-gradient(circle,#a78bfa,transparent 70%);top:40%;left:50%;animation:fo 20s ease-in-out infinite alternate;animation-delay:-14s}@keyframes fo{0%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.05)}100%{transform:translate(-20px,20px) scale(.95)}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:900px;padding:0 2rem}.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.2rem;border-radius:50px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:var(--a3);font-size:.82rem;font-weight:600;letter-spacing:.04em;margin-bottom:2rem;text-transform:uppercase}.pulse-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pd 2s infinite}@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.hero h1{font-size:clamp(3rem,7vw,5.5rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.5rem}.gt{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hero-sub{font-size:clamp(1.1rem,2vw,1.35rem);color:var(--t2);max-width:650px;margin:0 auto 2.5rem;font-weight:400}
+.cta-g{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}.btn{padding:.9rem 2.2rem;border-radius:14px;font-weight:600;font-size:1rem;text-decoration:none;transition:all .4s var(--ease);display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;border:none}.bp{background:var(--grad2);color:white;box-shadow:0 4px 20px rgba(99,102,241,0.3),inset 0 1px 0 rgba(255,255,255,0.15)}.bp:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(99,102,241,0.5)}.bg{background:rgba(255,255,255,0.04);color:var(--t1);border:1px solid var(--border);backdrop-filter:blur(10px)}.bg:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px)}
+.metrics{position:relative;z-index:10;margin-top:-6rem;padding:0 2rem}.mi{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:24px;overflow:hidden;border:1px solid var(--border)}.m{background:rgba(12,12,29,0.9);backdrop-filter:blur(20px);padding:2.5rem 2rem;text-align:center;transition:background .4s}.m:hover{background:rgba(99,102,241,0.05)}.mv{font-size:2.8rem;font-weight:800;letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}.ml{font-size:.85rem;color:var(--t3);margin-top:.5rem;font-weight:500}@media(max-width:768px){.mi{grid-template-columns:repeat(2,1fr)}}
+section{padding:8rem 0;position:relative}.sl{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--a1);margin-bottom:1.2rem}.sl::before{content:'';width:24px;height:2px;background:var(--a1)}.st{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:1.2rem}.sd{font-size:1.1rem;color:var(--t2);max-width:600px;line-height:1.8}
+.ps{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.pl{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}.pcs{display:flex;flex-direction:column;gap:1.5rem}.pc{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem;transition:all .4s var(--ease);position:relative;overflow:hidden}.pc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(135deg,#f59e0b,#ef4444);opacity:0;transition:opacity .4s}.pc:hover{border-color:rgba(245,158,11,0.2);background:rgba(245,158,11,0.03);transform:translateX(8px)}.pc:hover::before{opacity:1}.pc .ci{font-size:1.5rem;margin-bottom:.8rem}.pc h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}.pc p{color:var(--t2);font-size:.92rem;line-height:1.7}@media(max-width:768px){.pl{grid-template-columns:1fr;gap:2rem}}
+.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}.sc{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:2.5rem;transition:all .5s var(--ease)}.sc:hover{border-color:var(--glow);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.3)}.si{width:52px;height:52px;border-radius:14px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.5rem}.sc h3{font-size:1.2rem;font-weight:700;margin-bottom:.8rem}.sc p{color:var(--t2);font-size:.92rem;line-height:1.8}@media(max-width:768px){.sg{grid-template-columns:1fr}}
+.fs{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.fh{text-align:center;margin-bottom:4rem}.fh .sd{margin:0 auto}.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}.fc{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:2.2rem;text-align:center;transition:all .5s var(--ease);position:relative}.fc::before{content:'';position:absolute;inset:-1px;border-radius:24px;padding:1px;background:linear-gradient(135deg,transparent 40%,var(--a1) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s}.fc:hover::before{opacity:1}.fc:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.3)}.fi{width:56px;height:56px;border-radius:16px;background:rgba(99,102,241,0.08);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1.2rem}.fc h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem}.fc p{color:var(--t2);font-size:.88rem;line-height:1.7}@media(max-width:768px){.fg{grid-template-columns:1fr}}
+.tl{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}.tv{position:relative;display:flex;justify-content:center;align-items:center;min-height:400px}.tr{width:320px;height:320px;border-radius:50%;border:1px solid var(--border);position:relative;animation:rs 60s linear infinite}@keyframes rs{to{transform:rotate(360deg)}}.tr::before{content:'';position:absolute;inset:20px;border-radius:50%;border:1px solid rgba(99,102,241,0.08)}.tn{position:absolute;width:52px;height:52px;border-radius:14px;background:rgba(12,12,29,0.95);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;animation:cr 60s linear infinite;transition:all .3s}@keyframes cr{to{transform:rotate(-360deg)}}.tn:hover{border-color:var(--a1);box-shadow:0 0 30px rgba(99,102,241,0.3)}.tc{position:absolute;width:80px;height:80px;border-radius:20px;background:var(--grad2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 0 60px rgba(99,102,241,0.3)}.til{display:flex;flex-direction:column;gap:1rem}.ti{display:flex;align-items:center;gap:1.2rem;padding:1rem 1.5rem;background:var(--glass);border:1px solid var(--border);border-radius:12px;transition:all .3s var(--ease)}.ti:hover{border-color:var(--glow);background:rgba(99,102,241,0.03);transform:translateX(6px)}.ti .te{font-size:1.4rem;width:40px;text-align:center}.ti strong{font-size:.95rem}.ti span{color:var(--t3);font-size:.82rem;margin-left:.3rem}@media(max-width:768px){.tl{grid-template-columns:1fr}.tv{display:none}}
+.rs2{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.rh{text-align:center;margin-bottom:4rem}.rh .sd{margin:0 auto}.rt{position:relative;max-width:800px;margin:0 auto}.rt::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--a1),var(--a2),var(--border))}.ri{display:flex;gap:2rem;margin-bottom:2.5rem;align-items:flex-start}.rm{width:58px;height:58px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;position:relative;z-index:2}.md{background:rgba(34,197,94,0.1);border:2px solid rgba(34,197,94,0.3);color:#22c55e}.mp{background:rgba(234,179,8,0.1);border:2px solid rgba(234,179,8,0.3);color:#eab308;animation:pr 2s infinite}.mn{background:rgba(99,102,241,0.1);border:2px solid rgba(99,102,241,0.2);color:var(--a3)}@keyframes pr{0%,100%{box-shadow:0 0 0 0 rgba(234,179,8,0.2)}50%{box-shadow:0 0 0 12px rgba(234,179,8,0)}}
+.rc{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:1.8rem 2rem;flex:1;transition:all .3s var(--ease)}.rc:hover{border-color:var(--glow);transform:translateX(6px)}.rc h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}.rc p{color:var(--t2);font-size:.9rem}.rss{display:inline-block;padding:.25rem .8rem;border-radius:50px;font-size:.75rem;font-weight:700;margin-top:.8rem;letter-spacing:.03em}.sd2{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}.sp{background:rgba(234,179,8,0.1);color:#eab308;border:1px solid rgba(234,179,8,0.2)}.sn{background:rgba(99,102,241,0.1);color:var(--a3);border:1px solid rgba(99,102,241,0.2)}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}.prc{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:2.5rem;text-align:center;transition:all .5s var(--ease)}.prc.ft{border-color:var(--a1);background:rgba(99,102,241,0.04)}.prc.ft::before{content:'MOST POPULAR';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--grad2);color:white;padding:.3rem 1.2rem;border-radius:50px;font-size:.7rem;font-weight:700;letter-spacing:.05em}.prc:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.3);border-color:var(--glow)}.prc h3{font-size:1.2rem;font-weight:700;margin-bottom:.3rem}.prc .ps2{color:var(--t3);font-size:.85rem;margin-bottom:1.5rem}.prc .pr{font-size:2.5rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}.prc .pr span{font-size:.9rem;-webkit-text-fill-color:var(--t3)}.prc ul{list-style:none;text-align:left;margin:1.5rem 0}.prc li{padding:.5rem 0;font-size:.9rem;color:var(--t2);display:flex;align-items:center;gap:.6rem}.prc li::before{content:'✓';color:var(--a1);font-weight:700;font-size:.8rem}@media(max-width:768px){.pg{grid-template-columns:1fr}}
+.cf{position:relative;padding:8rem 0;text-align:center;overflow:hidden}.cf::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(99,102,241,0.1) 0%,transparent 70%)}.cf h2{font-size:clamp(2.5rem,5vw,3.8rem);font-weight:900;letter-spacing:-.04em;margin-bottom:1.2rem;line-height:1.1;position:relative}.cf p{font-size:1.15rem;color:var(--t2);max-width:550px;margin:0 auto 2.5rem;position:relative}
+footer{border-top:1px solid var(--border);padding:3rem 2rem;text-align:center}footer p{color:var(--t3);font-size:.85rem}
+.cg{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left .3s,top .3s}
+</style>
+</head>
+<body>
+<div class="cg" id="cg"></div>
+
+<nav id="nav">
+<a href="#" class="nav-logo"><div class="logo-mark">🏥</div>Chronic Care Butler</a>
+<div class="nav-links">
+<a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#features">Features</a><a href="#roadmap">Roadmap</a><a href="#pricing">Pricing</a>
+<a href="#contact" class="nav-cta">Schedule Demo</a>
+</div>
+</nav>
+
+<section class="hero">
+<canvas id="particles"></canvas>
+<div class="hero-orb o1"></div><div class="hero-orb o2"></div><div class="hero-orb o3"></div>
+<div class="hero-grid"></div>
+<div class="hero-content">
+<div class="hero-badge reveal"><span class="pulse-dot"></span>Live on AWS — Production Ready</div>
+<h1 class="reveal" style="transition-delay:.1s"><span class="gt">慢病管家</span><br>Chronic Care Butler</h1>
+<p class="hero-sub reveal" style="transition-delay:.2s">AI-powered platform connecting patients, families, and healthcare providers through intelligent automation and WeChat integration.</p>
+<div class="cta-g reveal" style="transition-delay:.3s">
+<a href="http://chronic-care-alb-904247496.us-east-1.elb.amazonaws.com" target="_blank" class="btn bp">View Live Demo →</a>
+<a href="#contact" class="btn bg">Contact Us</a>
+</div>
+</div>
+</section>
+
+<div class="metrics reveal-s">
+<div class="mi">
+<div class="m"><div class="mv" data-count="400">0</div><div class="ml">Million chronic patients in China</div></div>
+<div class="m"><div class="mv" data-pre="¥" data-count="4.1" data-suf="T">0</div><div class="ml">Annual healthcare spend</div></div>
+<div class="m"><div class="mv" data-count="60" data-suf="%">0</div><div class="ml">Medication non-adherence rate</div></div>
+<div class="m"><div class="mv" data-count="1.2" data-suf="B">0</div><div class="ml">WeChat monthly active users</div></div>
+</div>
+</div>
+
+<section class="ps" id="problem">
+<div class="container">
+<div class="pl">
+<div class="reveal">
+<div class="sl">The Crisis</div>
+<h2 class="st">Chronic disease management is <span class="gt">broken</span></h2>
+<p class="sd">China's 400 million chronic disease patients face fragmented care, zero automation, and disconnected stakeholders. The cost: lives and billions in preventable spending.</p>
+</div>
+<div class="pcs">
+<div class="pc reveal" style="transition-delay:.1s"><div class="ci">📋</div><h3>Fragmented Records</h3><p>Patient data scattered across paper files, hospital systems, and WeChat groups. No single source of truth.</p></div>
+<div class="pc reveal" style="transition-delay:.2s"><div class="ci">💊</div><h3>60% Non-Adherence</h3><p>Majority of patients miss medications. No automated reminders, no tracking, no accountability system.</p></div>
+<div class="pc reveal" style="transition-delay:.3s"><div class="ci">🔇</div><h3>Communication Gap</h3><p>Families lack real-time updates. Doctors rely on manual check-ins. Critical alerts go unnoticed.</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="solution">
+<div class="container">
+<div class="reveal" style="text-align:center">
+<div class="sl" style="justify-content:center">Our Solution</div>
+<h2 class="st">One platform. <span class="gt">Every stakeholder.</span></h2>
+<p class="sd" style="margin:0 auto">An integrated ecosystem connecting healthcare staff, patients, and families through tools they already use.</p>
+</div>
+<div class="sg">
+<div class="sc reveal" style="transition-delay:.1s"><div class="si">🏥</div><h3>Dashboard for Healthcare Staff</h3><p>Unified patient management with real-time vitals monitoring, medication tracking, appointment scheduling, and role-based access.</p></div>
+<div class="sc reveal" style="transition-delay:.2s"><div class="si">💬</div><h3>WeChat for Patients & Families</h3><p>Medication reminders, symptom reporting, appointment notifications, and daily health summaries — through WeChat.</p></div>
+<div class="sc reveal" style="transition-delay:.3s"><div class="si">🤖</div><h3>AI-Powered Intelligence</h3><p>Smart alerts for abnormal vitals, medication adherence analytics, predictive health insights, and automated care coordination.</p></div>
+<div class="sc reveal" style="transition-delay:.4s"><div class="si">📊</div><h3>Data-Driven Reporting</h3><p>Real-time dashboards, medication adherence reports, patient outcome analytics, and institutional benchmarking.</p></div>
+</div>
+</div>
+</section>
+
+<section class="fs" id="features">
+<div class="container">
+<div class="fh reveal">
+<div class="sl" style="justify-content:center">Core Features</div>
+<h2 class="st">Built for the <span class="gt">real workflow</span></h2>
+<p class="sd">Designed around the actual needs of Chinese healthcare facilities.</p>
+</div>
+<div class="fg">
+<div class="fc reveal" style="transition-delay:.05s"><div class="fi">👥</div><h3>Patient Management</h3><p>Full CRUD with role-based access. Admin, doctor, nurse, and staff see exactly what they need.</p></div>
+<div class="fc reveal" style="transition-delay:.1s"><div class="fi">💊</div><h3>Medication Tracking</h3><p>Prescription management with automated WeChat reminders and real-time adherence monitoring.</p></div>
+<div class="fc reveal" style="transition-delay:.15s"><div class="fi">📅</div><h3>Appointment Scheduling</h3><p>Create, confirm, cancel appointments. Automatic 24-hour WeChat reminders to patients.</p></div>
+<div class="fc reveal" style="transition-delay:.2s"><div class="fi">🚨</div><h3>Smart Alerts</h3><p>Real-time notifications for abnormal vitals, missed medications, and upcoming procedures.</p></div>
+<div class="fc reveal" style="transition-delay:.25s"><div class="fi">🌐</div><h3>Bilingual Interface</h3><p>Full Chinese/English support. Designed for China's market with international scalability.</p></div>
+<div class="fc reveal" style="transition-delay:.3s"><div class="fi">🔒</div><h3>Secure & Compliant</h3><p>JWT authentication, role-based access, encrypted data, HIPAA-aligned architecture.</p></div>
+</div>
+</div>
+</section>
+
+<section id="tech">
+<div class="container">
+<div class="tl">
+<div class="reveal">
+<div class="sl">Technology</div>
+<h2 class="st">Modern, scalable, <span class="gt">production-ready</span></h2>
+<p class="sd" style="margin-bottom:2rem">Enterprise-grade architecture built for reliability at scale.</p>
+<div class="til">
+<div class="ti"><div class="te">⚛️</div><strong>Next.js 14</strong><span>— React with SSR</span></div>
+<div class="ti"><div class="te">🟢</div><strong>Node.js + Express</strong><span>— RESTful API</span></div>
+<div class="ti"><div class="te">🍃</div><strong>MongoDB Atlas</strong><span>— Cloud database</span></div>
+<div class="ti"><div class="te">🔌</div><strong>Socket.IO</strong><span>— Real-time WebSocket</span></div>
+<div class="ti"><div class="te">💬</div><strong>WeChat SDK</strong><span>— Official Account API</span></div>
+<div class="ti"><div class="te">🐳</div><strong>Docker + AWS ECS</strong><span>— Container deployment</span></div>
+<div class="ti"><div class="te">🔄</div><strong>GitHub Actions</strong><span>— CI/CD pipeline</span></div>
+</div>
+</div>
+<div class="tv reveal-s">
+<div class="tr">
+<div class="tn" style="top:-26px;left:50%;margin-left:-26px">⚛️</div>
+<div class="tn" style="top:50%;right:-26px;margin-top:-26px">🍃</div>
+<div class="tn" style="bottom:-26px;left:50%;margin-left:-26px">🐳</div>
+<div class="tn" style="top:50%;left:-26px;margin-top:-26px">💬</div>
+<div class="tn" style="top:15%;right:10%">🔌</div>
+<div class="tn" style="bottom:15%;left:10%">🔄</div>
+</div>
+<div class="tc">🏥</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="rs2" id="roadmap">
+<div class="container">
+<div class="rh reveal">
+<div class="sl" style="justify-content:center">Roadmap</div>
+<h2 class="st">From prototype to <span class="gt">production</span></h2>
+<p class="sd">Building systematically toward market deployment.</p>
+</div>
+<div class="rt">
+<div class="ri reveal" style="transition-delay:.05s"><div class="rm md">✓</div><div class="rc"><h3>Data Layer & Core CRUD</h3><p>MongoDB Atlas integration, patient/medication/appointment management, real dashboard statistics</p><span class="rss sd2">Complete</span></div></div>
+<div class="ri reveal" style="transition-delay:.1s"><div class="rm md">✓</div><div class="rc"><h3>Role-Based Access Control</h3><p>Admin, Doctor, Nurse, Staff roles with proper permissions and data filtering</p><span class="rss sd2">Complete</span></div></div>
+<div class="ri reveal" style="transition-delay:.15s"><div class="rm md">✓</div><div class="rc"><h3>WeChat Patient Interface</h3><p>Medication reminders, symptom reporting, appointment notifications via WeChat</p><span class="rss sd2">Complete</span></div></div>
+<div class="ri reveal" style="transition-delay:.2s"><div class="rm mp">4</div><div class="rc"><h3>AWS Cloud Deployment</h3><p>Docker containers, ECS Fargate, CI/CD pipeline, SSL/domain setup</p><span class="rss sp">In Progress</span></div></div>
+<div class="ri reveal" style="transition-delay:.25s"><div class="rm mn">5</div><div class="rc"><h3>AI Intelligence Layer</h3><p>Predictive health analytics, NLP symptom analysis, automated care recommendations</p><span class="rss sn">Next Phase</span></div></div>
+</div>
+</div>
+</section>
+
+<section id="pricing">
+<div class="container">
+<div class="reveal" style="text-align:center">
+<div class="sl" style="justify-content:center">Business Model</div>
+<h2 class="st">SaaS pricing aligned with <span class="gt">facility size</span></h2>
+<p class="sd" style="margin:0 auto">Scalable subscription model designed for the Chinese healthcare market.</p>
+</div>
+<div class="pg">
+<div class="prc reveal" style="transition-delay:.1s;position:relative">
+<h3>Community Clinic</h3><p class="ps2">Small facilities</p>
+<div class="pr">¥2,999<span>/mo</span></div>
+<ul><li>Up to 200 patients</li><li>5 staff accounts</li><li>WeChat integration</li><li>Basic reporting</li><li>Email support</li></ul>
+</div>
+<div class="prc ft reveal" style="transition-delay:.2s;position:relative">
+<h3>Hospital Department</h3><p class="ps2">Medium facilities</p>
+<div class="pr">¥9,999<span>/mo</span></div>
+<ul><li>Up to 1,000 patients</li><li>25 staff accounts</li><li>WeChat + Mini Program</li><li>Advanced analytics</li><li>AI-powered alerts</li><li>Priority support</li></ul>
+</div>
+<div class="prc reveal" style="transition-delay:.3s;position:relative">
+<h3>Healthcare Group</h3><p class="ps2">Enterprise</p>
+<div class="pr">Custom</div>
+<ul><li>Unlimited patients</li><li>Unlimited accounts</li><li>Full platform access</li><li>Custom integrations</li><li>On-premise option</li><li>Dedicated support</li></ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="cf" id="contact">
+<div class="container reveal">
+<h2>Ready to transform <span class="gt">chronic care?</span></h2>
+<p>Schedule a demo and see how Chronic Care Butler can improve patient outcomes at your facility.</p>
+<div class="cta-g" style="margin-bottom:0">
+<a href="mailto:contact@chroniccare.com" class="btn bp">Schedule Demo →</a>
+<a href="http://chronic-care-alb-904247496.us-east-1.elb.amazonaws.com" target="_blank" class="btn bg">View Live Platform</a>
+</div>
+</div>
+</section>
+
+<footer>
+<p style="margin-bottom:.5rem">&copy; 2026 Chronic Care Butler. All rights reserved.</p>
+<p>Built with precision for better healthcare outcomes.</p>
+</footer>
+
+<script>
+// Cursor glow
+const cg=document.getElementById('cg');
+document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px'});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+
+// Reveal on scroll
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');observer.unobserve(e.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal,.reveal-s').forEach(el=>observer.observe(el));
+
+// Animated counters
+const countObserver=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){animateCounter(e.target);countObserver.unobserve(e.target)}})},{threshold:0.5});
+document.querySelectorAll('.mv').forEach(el=>countObserver.observe(el));
+
+function animateCounter(el){
+const target=parseFloat(el.dataset.count);
+const pre=el.dataset.pre||'';
+const suf=el.dataset.suf||'';
+const isFloat=target%1!==0;
+const duration=2000;
+const start=performance.now();
+function update(now){
+const elapsed=now-start;
+const progress=Math.min(elapsed/duration,1);
+const eased=1-Math.pow(1-progress,4);
+const current=target*eased;
+el.textContent=pre+(isFloat?current.toFixed(1):Math.floor(current))+(target>=100?'+':'')+suf;
+if(progress<1)requestAnimationFrame(update);
+}
+requestAnimationFrame(update);
+}
+
+// Particle system
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class Particle{
+constructor(){this.reset()}
+reset(){this.x=Math.random()*w;this.y=Math.random()*h;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.r=Math.random()*1.5+.5;this.a=Math.random()*.3+.1}
+update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>w)this.vx*=-1;if(this.y<0||this.y>h)this.vy*=-1}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(99,102,241,${this.a})`;ctx.fill()}
+}
+for(let i=0;i<80;i++)particles.push(new Particle());
+function animate(){
+ctx.clearRect(0,0,w,h);
+particles.forEach(p=>{p.update();p.draw()});
+for(let i=0;i<particles.length;i++){
+for(let j=i+1;j<particles.length;j++){
+const dx=particles[i].x-particles[j].x;
+const dy=particles[i].y-particles[j].y;
+const dist=Math.sqrt(dx*dx+dy*dy);
+if(dist<150){
+ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);
+ctx.strokeStyle=`rgba(99,102,241,${0.06*(1-dist/150)})`;ctx.lineWidth=.5;ctx.stroke()}
+}}
+requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

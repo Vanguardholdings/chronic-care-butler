@@ -28,7 +28,7 @@
 import { computed } from 'vue'
 import { useQueueStore } from '../store/queue'
 
-defineProps({
+const props = defineProps({
   limit: {
     type: Number,
     default: null

@@ -1,0 +1,35 @@
+{
+  "name": "chronic-care-dashboard-pro",
+  "version": "2.0.0",
+  "description": "Professional healthcare dashboard for Chronic Care Butler",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5",
+    "pinia": "^2.1.7",
+    "@headlessui/vue": "^1.7.17",
+    "@heroicons/vue": "^2.1.1",
+    "echarts": "^5.4.3",
+    "vue-echarts": "^6.6.1",
+    "date-fns": "^3.0.6",
+    "@vueuse/core": "^10.7.2",
+    "tailwindcss": "^3.4.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
+    "@vue/tsconfig": "^0.5.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.33",
+    "typescript": "~5.3.3",
+    "vite": "^5.0.11",
+    "vue-tsc": "^1.8.27"
+  }
+}
