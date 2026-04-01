@@ -1,0 +1,101 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECR_BACKEND: chronic-care-backend
+  ECR_FRONTEND: chronic-care-frontend
+  ECS_CLUSTER: chronic-care-cluster
+  ECS_BACKEND_SERVICE: chronic-care-backend
+  ECS_FRONTEND_SERVICE: chronic-care-frontend
+
+jobs:
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push backend image
+        working-directory: ./dashboard-3d-final
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:${{ github.sha }} .
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:${{ github.sha }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:latest
+
+      - name: Update ECS backend service
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_BACKEND_SERVICE }} \
+            --force-new-deployment
+
+  deploy-frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push frontend image
+        working-directory: ./unified-dashboard
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:${{ github.sha }} .
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:${{ github.sha }}
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:latest
+
+      - name: Update ECS frontend service
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_FRONTEND_SERVICE }} \
+            --force-new-deployment
+
+  deploy-investor-site:
+    name: Deploy Investor Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy investor site to S3
+        run: |
+          aws s3 sync ./docs/investor-site/ s3://chronic-care-investor/ \
+            --delete \
+            --content-type "text/html"
