@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronic Care Butler — Investor Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #06060f;
+            --bg2: #0c0c1d;
+            --glass: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.06);
+            --t1: #f0f0ff;
+            --t2: rgba(200,200,230,0.7);
+            --t3: rgba(160,160,200,0.5);
+            --a1: #6366f1;
+            --a2: #8b5cf6;
+            --a3: #a78bfa;
+            --grad: linear-gradient(135deg,#6366f1,#8b5cf6,#a78bfa);
+            --ease: cubic-bezier(0.16,1,0.3,1);
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1)}
+        
+        #particles{position:fixed;inset:0;z-index:0}
+        .orb{position:fixed;border-radius:50%;filter:blur(150px);opacity:.3;z-index:0;animation:float 25s ease-in-out infinite alternate}
+        .o1{width:700px;height:700px;background:radial-gradient(circle,#6366f1,transparent 70%);top:-20%;left:-15%}
+        .o2{width:600px;height:600px;background:radial-gradient(circle,#8b5cf6,transparent 70%);bottom:-15%;right:-20%;animation-delay:-12s}
+        @keyframes float{0%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,-40px) scale(1.1)}100%{transform:translate(-30px,30px) scale(.95)}}
+        
+        .slides{position:relative;z-index:10;height:100vh;width:100vw;perspective:2000px}
+        .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4rem;opacity:0;visibility:hidden;transform:translateZ(-500px) rotateY(30deg);transition:all .8s var(--ease)}
+        .slide.active{opacity:1;visibility:visible;transform:translateZ(0) rotateY(0)}
+        .slide.prev{transform:translateZ(-500px) rotateY(-30deg);opacity:0}
+        .slide.next{transform:translateZ(-500px) rotateY(30deg);opacity:0}
+        
+        .slide-content{max-width:1100px;width:100%;text-align:center}
+        .slide-number{position:absolute;bottom:2rem;right:3rem;font-size:.75rem;color:var(--t3);font-weight:600;letter-spacing:.1em}
+        
+        .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:50px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);color:var(--a3);font-size:.75rem;font-weight:600;letter-spacing:.05em;margin-bottom:1.5rem;text-transform:uppercase}
+        .pulse{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+        
+        h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-bottom:1rem}
+        h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:1rem}
+        h3{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:700;margin-bottom:.8rem}
+        p{font-size:clamp(1rem,1.5vw,1.2rem);color:var(--t2);line-height:1.7;max-width:700px;margin:0 auto 1.5rem}
+        .gt{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0}
+        .stat{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:1.5rem;text-align:center;backdrop-filter:blur(10px)}
+        .stat-v{font-size:2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-l{font-size:.75rem;color:var(--t3);margin-top:.3rem}
+        
+        .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;text-align:left;margin:2rem 0}
+        .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;text-align:left;margin:2rem 0}
+        .card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:1.8rem;transition:all .4s var(--ease)}
+        .card:hover{border-color:var(--a1);transform:translateY(-4px)}
+        .card h4{font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--a3)}
+        .card p{font-size:.85rem;margin:0}
+        .card .icon{font-size:2rem;margin-bottom:1rem}
+        
+        .feature-list{display:flex;flex-direction:column;gap:1rem;text-align:left;max-width:600px;margin:1.5rem auto}
+        .feature-item{display:flex;align-items:flex-start;gap:1rem;padding:1rem;background:var(--glass);border:1px solid var(--border);border-radius:12px}
+        .feature-item .check{width:24px;height:24px;border-radius:50%;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;color:#22c55e;font-size:.8rem;flex-shrink:0;margin-top:2px}
+        .feature-item strong{display:block;margin-bottom:.2rem}
+        .feature-item span{font-size:.85rem;color:var(--t2)}
+        
+        .tech-ring{width:200px;height:200px;border-radius:50%;border:1px solid var(--border);position:relative;margin:2rem auto;animation:spin 30s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .tech-ring::before{content:'';position:absolute;inset:15px;border-radius:50%;border:1px dashed rgba(99,102,241,0.2)}
+        .tech-c{position:absolute;width:50px;height:50px;border-radius:12px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;animation:counter-spin 30s linear infinite}
+        @keyframes counter-spin{to{transform:rotate(-360deg)}}
+        .tech-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+        
+        .roadmap{display:flex;flex-direction:column;gap:1rem;max-width:800px;margin:1.5rem auto;text-align:left}
+        .roadmap-item{display:flex;gap:1rem;align-items:flex-start}
+        .roadmap-marker{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;flex-shrink:0}
+        .rm-done{background:rgba(34,197,94,0.1);border:2px solid rgba(34,197,94,0.3);color:#22c55e}
+        .rm-progress{background:rgba(234,179,8,0.1);border:2px solid rgba(234,179,8,0.3);color:#eab308}
+        .rm-next{background:rgba(99,102,241,0.1);border:2px solid rgba(99,102,241,0.2);color:var(--a3)}
+        .roadmap-content{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:1.2rem 1.5rem}
+        .roadmap-content h4{font-size:.95rem;margin-bottom:.3rem}
+        .roadmap-content p{font-size:.8rem;margin:0}
+        .roadmap-status{display:inline-block;padding:.15rem .6rem;border-radius:50px;font-size:.65rem;font-weight:700;margin-top:.5rem}
+        .rs-done{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+        .rs-progress{background:rgba(234,179,8,0.1);color:#eab308;border:1px solid rgba(234,179,8,0.2)}
+        
+        .cta-group{display:flex;gap:1rem;justify-content:center;margin-top:2rem}
+        .btn{padding:.8rem 2rem;border-radius:12px;font-weight:600;font-size:.9rem;text-decoration:none;transition:all .4s var(--ease);display:inline-flex;align-items:center;gap:.5rem;border:none;cursor:pointer}
+        .btn-primary{background:var(--grad);color:white;box-shadow:0 4px 20px rgba(99,102,241,0.3)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(99,102,241,0.5)}
+        
+        .nav{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:1rem;z-index:100}
+        .nav button{width:44px;height:44px;border-radius:50%;background:var(--glass);border:1px solid var(--border);color:var(--t1);font-size:1.2rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center}
+        .nav button:hover{border-color:var(--a1);background:rgba(99,102,241,0.1)}
+        .nav-dots{display:flex;gap:.5rem;align-items:center}
+        .nav-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .3s}
+        .nav-dot.active{background:var(--a1);transform:scale(1.3)}
+        
+        .url-box{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;margin:1rem 0;font-family:monospace;font-size:.85rem;color:var(--a3)}
+        
+        @media print {
+            .slide{opacity:1!important;visibility:visible!important;transform:none!important;position:relative!important;page-break-after:always;height:100vh}
+            .nav,.orb,#particles{display:none!important}
+        }
+        @media(max-width:768px){
+            .stats,.grid-2,.grid-3{grid-template-columns:1fr}
+            .slide{padding:2rem}
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    
+    <div class="slides" id="slides">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="slide-content">
+                <div class="badge"><span class="pulse"></span>Production Ready</div>
+                <h1><span class="gt">慢病管家</span><br>Chronic Care Butler</h1>
+                <p>AI-Powered Chronic Disease Management Platform<br>Connecting patients, families, and healthcare providers</p>
+                <div class="url-box">https://d2pfobzoqcuvi7.cloudfront.net</div>
+            </div>
+            <div class="slide-number">01 / 10</div>
+        </div>
+        
+        <!-- Slide 2: Market Opportunity -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Market Opportunity</div>
+                <h2>The <span class="gt">400 Million</span> Patient Crisis</h2>
+                <p>China's chronic disease epidemic demands urgent, scalable solutions</p>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-v">400M+</div>
+                        <div class="stat-l">Chronic Patients in China</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-v">¥4.1T</div>
+                        <div class="stat-l">Annual Healthcare Spend</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-v">60%</div>
+                        <div class="stat-l">Medication Non-Adherence</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-v">1.2B</div>
+                        <div class="stat-l">WeChat Active Users</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">02 / 10</div>
+        </div>
+        
+        <!-- Slide 3: Problem -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">The Problem</div>
+                <h2>Fragmented, Inefficient, <span class="gt">Disconnected</span></h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="icon">📋</div>
+                        <h4>Fragmented Records</h4>
+                        <p>Patient data scattered across paper files, hospital systems, and chat groups. No single source of truth.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">💊</div>
+                        <h4>Poor Adherence</h4>
+                        <p>60% of patients miss medications. No automated reminders, no tracking, no accountability system.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🔇</div>
+                        <h4>Communication Gap</h4>
+                        <p>Families lack real-time updates. Doctors rely on manual check-ins. Critical alerts go unnoticed.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">03 / 10</div>
+        </div>
+        
+        <!-- Slide 4: Solution -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Our Solution</div>
+                <h2>One Platform. <span class="gt">Every Stakeholder.</span></h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="icon">🏥</div>
+                        <h4>Dashboard for Healthcare Staff</h4>
+                        <p>Unified patient management with real-time vitals, medication tracking, appointment scheduling, and role-based access for admins, doctors, nurses, and staff.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">💬</div>
+                        <h4>WeChat for Patients & Families</h4>
+                        <p>Medication reminders, symptom reporting, appointment notifications, and daily health summaries — all through WeChat, the app everyone already uses.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🤖</div>
+                        <h4>AI-Powered Intelligence</h4>
+                        <p>Smart alerts for abnormal vitals, medication adherence analytics, predictive health insights, and automated care coordination.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">📊</div>
+                        <h4>Data-Driven Reporting</h4>
+                        <p>Real-time dashboards, medication adherence reports, patient outcome analytics, and institutional benchmarking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">04 / 10</div>
+        </div>
+        
+        <!-- Slide 5: Core Features -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Core Features</div>
+                <h2>Built for the <span class="gt">Real Workflow</span></h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Patient Management</strong><span>Full CRUD with role-based access. Admin, doctor, nurse, and staff see exactly what they need.</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Medication Tracking</strong><span>Prescription management with automated WeChat reminders and real-time adherence monitoring.</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Appointment Scheduling</strong><span>Create, confirm, cancel appointments. Automatic 24-hour WeChat reminders to patients.</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Smart Alerts</strong><span>Real-time notifications for abnormal vitals, missed medications, and upcoming procedures.</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Bilingual Interface</strong><span>Full Chinese/English support. Designed for China's market with international scalability.</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">05 / 10</div>
+        </div>
+        
+        <!-- Slide 6: Tech Stack -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Technology</div>
+                <h2>Modern, Scalable, <span class="gt">Production-Ready</span></h2>
+                <div class="tech-ring">
+                    <div class="tech-center">🏥</div>
+                    <div class="tech-c" style="top:-25px;left:50%;margin-left:-25px">⚛️</div>
+                    <div class="tech-c" style="top:50%;right:-25px;margin-top:-25px">🍃</div>
+                    <div class="tech-c" style="bottom:-25px;left:50%;margin-left:-25px">🐳</div>
+                    <div class="tech-c" style="top:50%;left:-25px;margin-top:-25px">💬</div>
+                </div>
+                <div class="grid-3" style="margin-top:2rem">
+                    <div class="card"><h4>Frontend</h4><p>Next.js 14, React, Tailwind CSS, Three.js</p></div>
+                    <div class="card"><h4>Backend</h4><p>Node.js, Express, TypeScript, Socket.IO</p></div>
+                    <div class="card"><h4>Infrastructure</h4><p>AWS ECS, Docker, MongoDB Atlas, CloudFront</p></div>
+                </div>
+            </div>
+            <div class="slide-number">06 / 10</div>
+        </div>
+        
+        <!-- Slide 7: Roadmap -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Development Roadmap</div>
+                <h2>From Prototype to <span class="gt">Production</span></h2>
+                <div class="roadmap">
+                    <div class="roadmap-item">
+                        <div class="roadmap-marker rm-done">✓</div>
+                        <div class="roadmap-content">
+                            <h4>Data Layer & Core CRUD</h4>
+                            <p>MongoDB Atlas integration, patient/medication/appointment management, dashboard statistics</p>
+                            <span class="roadmap-status rs-done">Complete</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-marker rm-done">✓</div>
+                        <div class="roadmap-content">
+                            <h4>Role-Based Access Control</h4>
+                            <p>Admin, Doctor, Nurse, Staff roles with proper permissions and data filtering</p>
+                            <span class="roadmap-status rs-done">Complete</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-marker rm-done">✓</div>
+                        <div class="roadmap-content">
+                            <h4>WeChat Integration</h4>
+                            <p>Medication reminders, symptom reporting, appointment notifications via WeChat</p>
+                            <span class="roadmap-status rs-done">Complete</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-marker rm-progress">4</div>
+                        <div class="roadmap-content">
+                            <h4>AWS Cloud Deployment</h4>
+                            <p>Docker containers, ECS Fargate, CI/CD pipeline, SSL/domain setup</p>
+                            <span class="roadmap-status rs-progress">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">07 / 10</div>
+        </div>
+        
+        <!-- Slide 8: Business Model -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Business Model</div>
+                <h2>SaaS Pricing <span class="gt">by Facility Size</span></h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <div class="icon">🏥</div>
+                        <h4>Community Clinic</h4>
+                        <div style="font-size:1.8rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:.5rem 0">¥2,999<span style="font-size:.6rem;-webkit-text-fill-color:var(--t3)">/mo</span></div>
+                        <p style="font-size:.8rem">• Up to 200 patients<br>• 5 staff accounts<br>• WeChat integration<br>• Basic reporting</p>
+                    </div>
+                    <div class="card" style="border-color:var(--a1);background:rgba(99,102,241,0.04)">
+                        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--grad);color:white;padding:.2rem .8rem;border-radius:50px;font-size:.6rem;font-weight:700">MOST POPULAR</div>
+                        <div class="icon">🏥</div>
+                        <h4>Hospital Department</h4>
+                        <div style="font-size:1.8rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:.5rem 0">¥9,999<span style="font-size:.6rem;-webkit-text-fill-color:var(--t3)">/mo</span></div>
+                        <p style="font-size:.8rem">• Up to 1,000 patients<br>• 25 staff accounts<br>• WeChat + Mini Program<br>• AI-powered alerts<br>• Priority support</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon">🏢</div>
+                        <h4>Healthcare Group</h4>
+                        <div style="font-size:1.8rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:.5rem 0">Custom</div>
+                        <p style="font-size:.8rem">• Unlimited patients<br>• Unlimited accounts<br>• Full platform access<br>• Custom integrations<br>• On-premise option</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">08 / 10</div>
+        </div>
+        
+        <!-- Slide 9: Live Status -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Live Status</div>
+                <h2>Currently <span class="gt">Operational</span></h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Dashboard (HTTP)</strong><span>http://chronic-care-alb-904247496.us-east-1.elb.amazonaws.com</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>Investor Site (HTTPS)</strong><span>https://d2pfobzoqcuvi7.cloudfront.net</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>API Health</strong><span>All endpoints responding correctly</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>CI/CD Pipeline</strong><span>GitHub Actions auto-deploys on push to main</span></div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="check">✓</div>
+                        <div><strong>MongoDB Atlas</strong><span>Cloud database connected and operational</span></div>
+                    </div>
+                </div>
+                <div style="margin-top:2rem;font-size:.85rem;color:var(--t3)">
+                    <strong>Login Demo:</strong> admin@chroniccare.com / admin123
+                </div>
+            </div>
+            <div class="slide-number">09 / 10</div>
+        </div>
+        
+        <!-- Slide 10: CTA -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="badge">Next Steps</div>
+                <h2>Ready to <span class="gt">Transform</span> Chronic Care?</h2>
+                <p>Schedule a demo and see how Chronic Care Butler can improve patient outcomes at your facility.</p>
+                <div class="cta-group">
+                    <a href="mailto:contact@chroniccare.com" class="btn btn-primary">Schedule Demo →</a>
+                </div>
+                <div style="margin-top:3rem;font-size:.8rem;color:var(--t3)">
+                    <p style="margin:0">Built with precision for better healthcare outcomes</p>
+                    <p style="margin:.5rem 0 0">&copy; 2026 Chronic Care Butler</p>
+                </div>
+            </div>
+            <div class="slide-number">10 / 10</div>
+        </div>
+    </div>
+    
+    <div class="nav">
+        <button onclick="prevSlide()">←</button>
+        <div class="nav-dots" id="dots"></div>
+        <button onclick="nextSlide()">→</button>
+    </div>
+    
+    <script>
+        // Particles
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        resize(); window.addEventListener('resize', resize);
+        class Particle {
+            constructor() { this.reset(); }
+            reset() { this.x = Math.random() * w; this.y = Math.random() * h; this.vx = (Math.random() - .5) * .3; this.vy = (Math.random() - .5) * .3; this.r = Math.random() * 1.5 + .5; this.a = Math.random() * .3 + .1; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > w) this.vx *= -1; if (this.y < 0 || this.y > h) this.vy *= -1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fillStyle = `rgba(99,102,241,${this.a})`; ctx.fill(); }
+        }
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        function animate() { ctx.clearRect(0, 0, w, h); particles.forEach(p => { p.update(); p.draw(); }); for (let i = 0; i < particles.length; i++) for (let j = i + 1; j < particles.length; j++) { const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, dist = Math.sqrt(dx * dx + dy * dy); if (dist < 150) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(99,102,241,${0.05 * (1 - dist / 150)})`; ctx.lineWidth = .5; ctx.stroke(); } } requestAnimationFrame(animate); }
+        animate();
+        
+        // Slides
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+        
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        });
+        
+        function updateSlides() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev', 'next');
+                if (i === currentSlide) slide.classList.add('active');
+                else if (i < currentSlide) slide.classList.add('prev');
+                else slide.classList.add('next');
+            });
+            document.querySelectorAll('.nav-dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+        }
+        
+        function nextSlide() { currentSlide = (currentSlide + 1) % slides.length; updateSlides(); }
+        function prevSlide() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateSlides(); }
+        function goToSlide(n) { currentSlide = n; updateSlides(); }
+        
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+        
+        // Touch support
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        document.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+        });
+    </script>
+</body>
+</html>

@@ -206,8 +206,7 @@ class WeChatService {
   /**
    * Parse incoming WeChat message
    */
-  parseMessage(xmlData: string): WeChatMessage {
-    // Simple XML parsing (in production, use a proper XML parser)
+  parseMessage(xmlData: string | any): WeChatMessage {
     const message: WeChatMessage = {
       ToUserName: '',
       FromUserName: '',
@@ -215,21 +214,37 @@ class WeChatService {
       MsgType: '',
     };
 
-    const toUserMatch = xmlData.match(/<ToUserName><!\[CDATA\[(.*?)\]\]><\/ToUserName>/);
-    const fromUserMatch = xmlData.match(/<FromUserName><!\[CDATA\[(.*?)\]\]><\/FromUserName>/);
-    const createTimeMatch = xmlData.match(/<CreateTime>(\d+)<\/CreateTime>/);
-    const msgTypeMatch = xmlData.match(/<MsgType><!\[CDATA\[(.*?)\]\]><\/MsgType>/);
-    const contentMatch = xmlData.match(/<Content><!\[CDATA\[(.*?)\]\]><\/Content>/);
-    const eventMatch = xmlData.match(/<Event><!\[CDATA\[(.*?)\]\]><\/Event>/);
-    const eventKeyMatch = xmlData.match(/<EventKey><!\[CDATA\[(.*?)\]\]><\/EventKey>/);
+    // Handle already-parsed object (from xml2js body parser)
+    if (typeof xmlData === 'object' && xmlData.xml) {
+      const xml = xmlData.xml;
+      message.ToUserName = xml.tousername?.[0] || '';
+      message.FromUserName = xml.fromusername?.[0] || '';
+      message.CreateTime = parseInt(xml.createtime?.[0] || '0');
+      message.MsgType = xml.msgtype?.[0] || '';
+      message.Content = xml.content?.[0] || '';
+      message.Event = xml.event?.[0] || '';
+      message.EventKey = xml.eventkey?.[0] || '';
+      return message;
+    }
 
-    if (toUserMatch) message.ToUserName = toUserMatch[1];
-    if (fromUserMatch) message.FromUserName = fromUserMatch[1];
-    if (createTimeMatch) message.CreateTime = parseInt(createTimeMatch[1]);
-    if (msgTypeMatch) message.MsgType = msgTypeMatch[1];
-    if (contentMatch) message.Content = contentMatch[1];
-    if (eventMatch) message.Event = eventMatch[1];
-    if (eventKeyMatch) message.EventKey = eventKeyMatch[1];
+    // Handle raw XML string (fallback for backward compatibility)
+    if (typeof xmlData === 'string') {
+      const toUserMatch = xmlData.match(/<ToUserName><!\[CDATA\[(.*?)\]\]><\/ToUserName>/i);
+      const fromUserMatch = xmlData.match(/<FromUserName><!\[CDATA\[(.*?)\]\]><\/FromUserName>/i);
+      const createTimeMatch = xmlData.match(/<CreateTime>(\d+)<\/CreateTime>/);
+      const msgTypeMatch = xmlData.match(/<MsgType><!\[CDATA\[(.*?)\]\]><\/MsgType>/i);
+      const contentMatch = xmlData.match(/<Content><!\[CDATA\[(.*?)\]\]><\/Content>/i);
+      const eventMatch = xmlData.match(/<Event><!\[CDATA\[(.*?)\]\]><\/Event>/i);
+      const eventKeyMatch = xmlData.match(/<EventKey><!\[CDATA\[(.*?)\]\]><\/EventKey>/i);
+
+      if (toUserMatch) message.ToUserName = toUserMatch[1];
+      if (fromUserMatch) message.FromUserName = fromUserMatch[1];
+      if (createTimeMatch) message.CreateTime = parseInt(createTimeMatch[1]);
+      if (msgTypeMatch) message.MsgType = msgTypeMatch[1];
+      if (contentMatch) message.Content = contentMatch[1];
+      if (eventMatch) message.Event = eventMatch[1];
+      if (eventKeyMatch) message.EventKey = eventKeyMatch[1];
+    }
 
     return message;
   }

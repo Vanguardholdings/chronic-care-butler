@@ -12,6 +12,9 @@ const router = Router();
 // Auth routes (no prefix needed, already under /api/auth)
 router.use('/auth', authRoutes);
 
+// WeChat routes - MUST come before catch-all routes that use auth middleware
+router.use('/wechat', wechatRoutes);
+
 // Patient routes
 router.use('/patients', patientRoutes);
 
@@ -26,9 +29,6 @@ router.use('/alerts', alertRoutes);
 
 // Patient-scoped alert route needs special handling
 router.use('/', alertRoutes);
-
-// WeChat routes
-router.use('/wechat', wechatRoutes);
 
 // Report routes
 router.use('/reports', reportRoutes);

@@ -5,10 +5,10 @@
 
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import Patient from '../dashboard-3d-final/src/server/models/Patient';
-import User from '../dashboard-3d-final/src/server/models/User';
-import Medication from '../dashboard-3d-final/src/server/models/Medication';
-import Appointment from '../dashboard-3d-final/src/server/models/Appointment';
+import Patient from './models/Patient';
+import User from './models/User';
+import Medication from './models/Medication';
+import Appointment from './models/Appointment';
 
 const DEMO_DATA = {
   patients: [

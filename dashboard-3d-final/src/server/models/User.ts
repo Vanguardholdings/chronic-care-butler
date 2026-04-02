@@ -44,11 +44,12 @@ const UserSchema = new Schema<IUser>(
     timestamps: true,
     toJSON: {
       transform(_doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-        delete ret.__v;
-        delete ret.passwordHash;
-        return ret;
+        const transformed = ret as any;
+        transformed.id = transformed._id;
+        delete transformed._id;
+        delete transformed.__v;
+        delete transformed.passwordHash;
+        return transformed;
       },
     },
   }

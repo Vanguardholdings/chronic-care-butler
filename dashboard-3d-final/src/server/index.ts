@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import path from 'path';
 import http from 'http';
+import xmlBodyParser from 'express-xml-bodyparser';
 
 // Load environment variables
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -77,6 +78,7 @@ app.use('/api/auth/', authLimiter);
 // ─── Body Parsing ─────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(xmlBodyParser()); // Parse XML for WeChat webhooks
 
 // ─── Logging ──────────────────────────────────────────────────
 if (process.env.NODE_ENV === 'development') {
@@ -97,6 +99,12 @@ app.get('/api/health', (_req, res) => {
       version: '1.0.0',
     },
   });
+});
+
+// ─── WeChat Webhook (Direct - for debugging) ─────────────────
+app.get('/api/wechat/webhook', (req, res) => {
+  console.log('>>> DIRECT WEBHOOK HIT:', req.query);
+  res.send(req.query.echostr || 'success');
 });
 
 // ─── API Routes ───────────────────────────────────────────────

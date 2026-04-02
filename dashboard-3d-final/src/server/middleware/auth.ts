@@ -118,7 +118,7 @@ export const generateToken = (user: {
     },
     jwtSecret,
     {
-      expiresIn: (process.env.JWT_EXPIRES_IN as string) || '24h',
+      expiresIn: (process.env.JWT_EXPIRES_IN as any) || '24h',
     }
   );
 };

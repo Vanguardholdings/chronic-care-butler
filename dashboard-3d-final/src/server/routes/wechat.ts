@@ -12,9 +12,11 @@ const router = Router();
  * WeChat server verification endpoint
  */
 router.get('/webhook', (req: Request, res: Response) => {
+  console.log('>>> WECHAT WEBHOOK GET HIT:', req.query);
   const { signature, timestamp, nonce, echostr } = req.query;
 
   if (!signature || !timestamp || !nonce) {
+    console.log('>>> Missing params');
     return res.status(400).send('Missing parameters');
   }
 
@@ -23,11 +25,14 @@ router.get('/webhook', (req: Request, res: Response) => {
     timestamp as string,
     nonce as string
   );
+  console.log('>>> Signature valid:', isValid);
 
   if (isValid) {
     // Return echostr for verification
+    console.log('>>> Returning echostr:', echostr);
     res.send(echostr);
   } else {
+    console.log('>>> Invalid signature');
     res.status(403).send('Invalid signature');
   }
 });
@@ -37,8 +42,10 @@ router.get('/webhook', (req: Request, res: Response) => {
  * Receive WeChat messages
  */
 router.post('/webhook', async (req: Request, res: Response) => {
+  console.log('>>> WECHAT POST WEBHOOK HIT');
   try {
     const { signature, timestamp, nonce } = req.query;
+    console.log('>>> Query params:', { signature, timestamp, nonce });
 
     // Validate signature
     const isValid = wechatService.validateSignature(
@@ -46,6 +53,7 @@ router.post('/webhook', async (req: Request, res: Response) => {
       timestamp as string,
       nonce as string
     );
+    console.log('>>> Signature valid:', isValid);
 
     if (!isValid) {
       return res.status(403).send('Invalid signature');
@@ -53,6 +61,7 @@ router.post('/webhook', async (req: Request, res: Response) => {
 
     // Parse XML message
     const xmlData = req.body;
+    console.log('>>> Raw body:', xmlData);
     const message = wechatService.parseMessage(xmlData);
 
     console.log('Received WeChat message:', message);

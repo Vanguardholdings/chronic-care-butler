@@ -153,7 +153,7 @@ async function sendAppointmentReminders(): Promise<void> {
           binding.openId,
           patient.name,
           appointment.type,
-          appointment.doctor,
+          appointment.doctor || 'Unknown',
           new Date(appointment.dateTime).toLocaleString('zh-CN'),
           appointment.location || '待确认'
         );
